@@ -13,6 +13,13 @@ spring:
       min-idle: 20
       max-idle: 100
       max-active: 300
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    encoding: UTF-8
+  activiti:
+    database-schema: update
+    check-process-definitions: false
 eureka:
   client:
     service-url:
