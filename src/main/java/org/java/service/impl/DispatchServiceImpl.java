@@ -32,7 +32,8 @@ public class DispatchServiceImpl implements DispatchService {
         for (Task task: list) {
             String username=getTaskCandidate(task.getId());
             listname.add(username);
-            task.setAssignee(username);
+            taskService.setAssignee(task.getId(),username);
+//            task.setAssignee(username);
         }
         return listname;
     }
@@ -62,13 +63,13 @@ public class DispatchServiceImpl implements DispatchService {
         }
         for (User user:users){
             TaskQuery taskQuery = taskService.createTaskQuery();
-            List<Task> list = taskQuery.taskAssignee(user.getFirstName()).list();
-            map.put(user.getFirstName(),list.size());
+            List<Task> list = taskQuery.taskAssignee(user.getId()).list();
+            map.put(user.getId(),list.size());
         }
-        Integer value=(Integer) map.values().toArray()[0];//获取map中第一个值，判断获得最小任务的用户
-        String name=null;                   //最小任务的用户名
+        String name=(String)map.keySet().toArray()[0];                   //最小任务的用户名
+        Integer value=map.get(name);//获取map中第一个值，判断获得最小任务的用户
         for (String username : map.keySet()) {
-            Integer i = map.get(name);
+            Integer i = map.get(username);
             if(i<value) {
                 value=i;
                 name=username;
